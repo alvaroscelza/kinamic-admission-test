@@ -1,0 +1,18 @@
+- Se utilizó PlantUML para la diagramación UML (https://plantuml.com/). El diagrama exportado puede verse en el directorio "out".
+- La interfaz Emitable y sus implementaciones permiten tener distintos tipos de emisores según se necesite.
+- Alarm es una clase abstracta (no se puede instanciar) y tiene un emisor. Pero al ser este una interfaz Emitable podemos usar polimorfismo.
+- Alarm es implementada por distintos tipos de alarmas según se necesite, cada uno de estos tipos tiene una lógica distinta para activarse o desactivarse. Lo que puede
+llevar una lógica adicional para "acarrear otras acciones" como el problema menciona.
+- Utilizamos una Factory abstracta que tiene una Alarm, pudiendo usar la implementación que quiera (también podemos usar polimorfismo debido a la herencia de Alarm).
+- Cada implementación de Factory tiene su lógica de uso de la alarma, incluyendo las condiciones de activación y desactivación (en el caso del ejemplo, el pasar
+los umbrales).
+-Dado que tenemos una herencia para Alarm, podemos agregar nuevas alarmas respetando Open-Closed de SOLID.
+
+Para la parte adicional: se puede utilizar Reflextion para cargar las configuraciones usando una técnica arquitectónica llamada Defer Bindings (particularmente en Runtime).
+Podemos también, realizar algo más completo teniendo un servicio de alarmas aparte que puede darnos información de las dosponibles usando uno de los patrones "service discovery"
+(https://microservices.io/).
+
+
+Nota adicional:
+No me quedó claro si tiene una sola o una lista de alarmas, pero si es el segundo caso, entonces hay que cambiar el atributo 'alarm'
+por una lista de alarmas y tomar esto en cuenta en las lógicas de cada implementación.

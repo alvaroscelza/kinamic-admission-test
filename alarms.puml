@@ -1,0 +1,47 @@
+@startuml alarms
+    interface Emitable
+    Emitable : emit()
+
+    class DataBaseNotification implements Emitable
+    DataBaseNotification : emit()
+
+    class Email implements Emitable
+    Email : emit()
+
+    class SMS implements Emitable
+    SMS : emit()
+
+    class AnotherEmisor implements Emitable
+    AnotherEmisor : emit()
+
+    abstract class Alarm {
+        active: boolean
+    }
+    Alarm -> Emitable : emisor
+    Alarm : activate()
+    Alarm : deactivate()
+
+    class HighConsumeAlarm extends Alarm
+    HighConsumeAlarm : activate()
+    HighConsumeAlarm : deactivate()
+
+    class AnotherAlarm extends Alarm
+    AnotherAlarm : activate()
+    AnotherAlarm : deactivate()
+
+    abstract class Factory
+    Factory -> Alarm : alarm
+
+    class FactoryA extends Factory {
+        activation_threshold : int
+        deactivation_threshold : int
+    }
+    FactoryA ..> HighConsumeAlarm
+    FactoryA : check_consume(consume)
+    note left
+        if consume > activation_threshold and not self.alarm.active:
+            self.alarm.activate()
+        if consume < deactivation_threshold and self.alarm.active:
+            self.alarm.deactivate()
+    end note
+@enduml
